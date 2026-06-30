@@ -3,31 +3,35 @@
 
 from fastapi import FastAPI
 
-
 app = FastAPI()
 
-
-lst=[]
-
+# Use a dictionary instead of a list
+store = {}
 
 @app.get("/")
 def getting():
-    print("method  work")
-    return "get method was work"
+    print("method work")
+    return {"message": "GET method works"}
+
 @app.post("/inserting")
-def addind(inp:str):
-    a="vebbox"
-    lst.append(inp)
-    return lst
+def adding(key: str, value: str):
+    store[key] = value
+    return store
+
 @app.put("/updating")
-def up(ind:int,inp:str):
-    lst[ind] = inp
-    return lst
+def updating(key: str, value: str):
+    if key in store:
+        store[key] = value
+        return store
+    return {"error": "Key not found"}
+
 @app.delete("/deleting")
-def dele(ind:int):
-    lst.pop(ind)
-    return lst
-    
+def deleting(key: str):
+    if key in store:
+        store.pop(key)
+        return store
+    return {"error": "Key not found"}
+
     
     
 
